@@ -1,0 +1,22 @@
+name: Documentation Request
+description: Report outdated documentation or suggest improvements to the documentation
+labels: documentation
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Documentation Overview
+      description: A clear and concise overview of the documentation issue.
+      placeholder: The documentation for X is outdated and does not reflect the current state of the project.
+    validations:
+      required: true
+
+  - type: input
+    id: link
+    attributes:
+      label: Documentation Link
+      description: A link to the specific documentation that is outdated or needs improvement.
+      placeholder: https://example.com/docs/feature-x
+    validations:
+      required: true

@@ -1,0 +1,54 @@
+name: Bug Report
+description: Report a bug in the project
+labels: bug
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug!
+
+        Before continuing, please make sure to check if the issue has already been reported by searching through the existing issues.
+
+        Remember to remove any sensitive information from the bug report, such as passwords or personal data.
+
+  - type: checkboxes
+    attributes:
+      label: "I have:"
+      options:
+        - label: searched the issues tracker for similar issues.
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Overview
+      description: A clear and concise overview of the bug.
+      placeholder: When I do X, Y happens instead of Z.
+    validations:
+      required: true
+
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen when the bug occurred.
+      placeholder: When I do X, I expect Z to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: A detailed series of steps to reproduce the bug, including any necessary setup or configuration.
+      placeholder: When I do X with [...], Y happens instead of Z. If I check the console, I see [...].
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any additional information that may help in diagnosing the issue, such as screenshots, error messages, or logs.
+      placeholder: Feel free to add any other relevant information/screenshots that may assist in resolving the issue.
