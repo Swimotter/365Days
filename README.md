@@ -52,7 +52,7 @@ On reveal day, the pod can play in two modes.
 │ └── postgres/
 │ └── init/ # SQL init scripts
 ├── .pre-commit-config.yaml # Pre-commit hook config
-├── docker-compose.dev.yml # Local development stack
+├── docker-compose.dev.yaml # Local development stack
 ```
 
 ### Services
