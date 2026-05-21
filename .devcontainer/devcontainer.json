@@ -4,6 +4,7 @@
   "service": "app",
   "workspaceFolder": "/workspaces/365Days",
   "shutdownAction": "stopCompose",
+  "postCreateCommand": "pre-commit install",
 
   "forwardPorts": [3000, 5432, 9000, 9001],
   "portsAttributes": {

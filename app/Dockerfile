@@ -6,7 +6,7 @@ RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 # Enable corepack and install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-WORKDIR /app
+WORKDIR /workspaces/365Days/app
 
 # Split prod and dev
 FROM base AS deps

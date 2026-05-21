@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "365Days",
+  description:
+    "365Days is a shared journal for friends, family, and loved ones to document their lives in interactive ways.",
+};
 
 export default function Home() {
   return (
