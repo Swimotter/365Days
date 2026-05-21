@@ -8,8 +8,8 @@ services:
     restart: unless-stopped
     volumes:
       - .:/workspaces/365Days
-      - /workspaces/365Days/node_modules
-      - /workspaces/365Days/.next
+      - /workspaces/365Days/app/node_modules
+      - /workspaces/365Days/app/.next
     ports:
       - "${APP_PORT:-3000}:3000"
     environment:
@@ -41,9 +41,13 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./docker/postgres/init:/docker-entrypoint-initdb.d
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"   # For connecting with TablePlus/pgAdmin locally
+      - "${POSTGRES_PORT:-5432}:5432" # For connecting with TablePlus/pgAdmin locally
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-appdb}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-appdb}",
+        ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -59,8 +63,8 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
     ports:
-      - "9000:9000"   # S3-compatible API
-      - "9001:9001"   # MinIO web console
+      - "9000:9000" # S3-compatible API
+      - "9001:9001" # MinIO web console
     volumes:
       - minio_data:/data
     healthcheck:
