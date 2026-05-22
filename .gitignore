@@ -2,3 +2,5 @@
 
 .next/
 .pnpm-store/
+
+.env
