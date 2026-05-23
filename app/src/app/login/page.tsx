@@ -1,4 +1,6 @@
 import { Metadata } from "next";
+import EmailSignup from "../components/email-signup";
+import SocialSignup from "../components/social-signup";
 
 export const metadata: Metadata = {
   title: "365Days",
@@ -8,11 +10,21 @@ export const metadata: Metadata = {
 
 export default function Login() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-          Login Page
-        </h1>
+    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans">
+      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-zinc-5 sm:items-start">
+        <div className="flex flex-col w-full text-black">
+          <EmailSignup />
+          <div className="relative flex items-center py-5">
+            <div className="grow border-t border-gray-600"></div>
+            <span className="mx-4 shrink text-gray-600">
+              Use Social Profile
+            </span>
+            <div className="grow border-t border-gray-600"></div>
+          </div>
+          <div className="flex justify-center">
+            <SocialSignup />
+          </div>
+        </div>
       </main>
     </div>
   );
