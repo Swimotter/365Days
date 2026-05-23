@@ -50,6 +50,7 @@ export default function EmailSignup() {
         name="email"
         label="Email *"
         type="email"
+        image="/email.svg"
         required
         className="bg-gray-200"
       />
@@ -57,6 +58,7 @@ export default function EmailSignup() {
         id="nickname"
         name="nickname"
         label="Nickname *"
+        image="/at.svg"
         required
         className="bg-gray-200"
       />
@@ -65,6 +67,7 @@ export default function EmailSignup() {
         name="password"
         label="Password *"
         type="password"
+        image="/lock.svg"
         required
         className="bg-gray-200"
       />
@@ -73,6 +76,7 @@ export default function EmailSignup() {
         name="confirm-password"
         label="Confirm Password *"
         type="password"
+        image="/lock.svg"
         required
         className="bg-gray-200"
       />
