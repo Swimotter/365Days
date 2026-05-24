@@ -20,14 +20,19 @@ export default function FloatingInput({
   className,
 }: FloatingInputProps) {
   return (
-    <div
+    <label
+      htmlFor={id}
       className={`
+        cursor-text
         flex flex-row
         ring-inset
-        focus-within:ring-2
-        transition-all duration-200
-        focus-within:ring-blue-500
         rounded-md
+        ring-blue-500
+
+        hover:not-focus-within:ring-1
+        focus-within:ring-2
+
+        transition-all duration-200
         ${className}
       `}
     >
@@ -54,26 +59,26 @@ export default function FloatingInput({
           placeholder=""
           required={required}
         ></input>
-        <label
+        <span
           className="
-          absolute left-4 top-3
-          text-gray-600
+            absolute left-4 top-3
+            text-gray-600
+            pointer-events-none
 
-          transition-all duration-200
+            transition-all duration-200
 
-          peer-focus:top-1
-          peer-focus:left-3
-          peer-focus:text-sm
+            peer-focus:top-1
+            peer-focus:left-3
+            peer-focus:text-sm
 
-          peer-[:not(:placeholder-shown)]:top-1
-          peer-[:not(:placeholder-shown)]:left-3
-          peer-[:not(:placeholder-shown)]:text-sm
-        "
-          htmlFor={id}
+            peer-[:not(:placeholder-shown)]:top-1
+            peer-[:not(:placeholder-shown)]:left-3
+            peer-[:not(:placeholder-shown)]:text-sm
+          "
         >
           {label}
-        </label>
+        </span>
       </div>
-    </div>
+    </label>
   );
 }

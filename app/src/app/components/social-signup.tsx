@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
+import SocialButton from "./ui/social-button";
 
 export default function SocialSignup() {
   async function handleSubmit(provider: string) {
@@ -13,33 +14,17 @@ export default function SocialSignup() {
     });
   }
   return (
-    <div className="flex flex-row items-center gap-6">
-      <button
-        className="flex flex-col items-center gap-2 cursor-pointer"
+    <div className="flex flex-col gap-4 w-full items-center">
+      <SocialButton
+        image="/google.svg"
+        name="Google"
         onClick={() => handleSubmit("google")}
-      >
-        <Image
-          className="h-6 w-auto"
-          src="/google.svg"
-          alt="Google"
-          height={24}
-          width={24}
-        />
-        <span>Google</span>
-      </button>
-      <button
-        className="flex flex-col items-center gap-2 cursor-pointer"
+      />
+      <SocialButton
+        image="/discord.svg"
+        name="Discord"
         onClick={() => handleSubmit("discord")}
-      >
-        <Image
-          className="h-6 w-auto"
-          src="/discord.svg"
-          alt="Discord"
-          height={24}
-          width={24}
-        />
-        <span>Discord</span>
-      </button>
+      />
     </div>
   );
 }

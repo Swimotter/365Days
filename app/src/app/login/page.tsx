@@ -13,17 +13,13 @@ export default function Login() {
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans">
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-zinc-5 sm:items-start">
         <div className="flex flex-col w-full text-black">
-          <EmailSignup />
+          <SocialSignup />
           <div className="relative flex items-center py-5">
             <div className="grow border-t border-gray-600"></div>
-            <span className="mx-4 shrink text-gray-600">
-              Use Social Profile
-            </span>
+            <span className="mx-4 shrink text-gray-600">or</span>
             <div className="grow border-t border-gray-600"></div>
           </div>
-          <div className="flex justify-center">
-            <SocialSignup />
-          </div>
+          <EmailSignup />
         </div>
       </main>
     </div>
