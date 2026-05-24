@@ -3,8 +3,12 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { magicLink } from "better-auth/plugins";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
+import { sendEmail } from "@/lib/email";
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL!,
+  secret: process.env.BETTER_AUTH_SECRET!,
+
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
@@ -16,19 +20,22 @@ export const auth = betterAuth({
     usePlural: true,
   }),
 
-  baseUrl: process.env.BETTER_AUTH_URL!,
-  secret: process.env.BETTER_AUTH_SECRET!,
-
+  // Used so users can set a password during onboarding
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
+    autoSignIn: false,
   },
 
+  // Primary authentication method
   plugins: [
     magicLink({
+      expiresIn: 60 * 60, // 1 hour
       sendMagicLink: async ({ email, url }) => {
-        // TODO: connect email provider
-        console.log(`Send magic link to ${email}: ${url}`);
+        await sendEmail({
+          to: email,
+          subject: "Your 365 Days signup link",
+          html: `<a href="${url}">Click here to verify your email and continue</a>`,
+        });
       },
     }),
   ],
@@ -64,6 +71,10 @@ export const auth = betterAuth({
         type: "string",
         required: false,
         input: true,
+      },
+      onboardingComplete: {
+        type: "boolean",
+        defaultValue: false,
       },
     },
   },
