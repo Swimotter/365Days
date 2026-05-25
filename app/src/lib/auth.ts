@@ -24,6 +24,13 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     autoSignIn: false,
+    sendResetPassword: async ({ user, url, token }, request) => {
+      sendEmail({
+        to: user.email,
+        subject: "Reset your 365Days password",
+        html: `<a href="${url}">Click here to reset your password</a>`,
+      });
+    },
   },
 
   // Primary authentication method
@@ -31,7 +38,7 @@ export const auth = betterAuth({
     magicLink({
       expiresIn: 60 * 60, // 1 hour
       sendMagicLink: async ({ email, url }) => {
-        await sendEmail({
+        sendEmail({
           to: email,
           subject: "Your 365 Days signup link",
           html: `<a href="${url}">Click here to verify your email and continue</a>`,

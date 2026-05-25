@@ -6,7 +6,7 @@ import { authClient } from "@/lib/auth-client";
 import FloatingInput from "@/app/components/ui/floating-input";
 
 type EmailLoginProps = {
-  authMode: "login" | "signup";
+  authMode: "login" | "signup" | "reset";
 };
 
 export default function EmailLogin({ authMode }: EmailLoginProps) {
@@ -14,6 +14,8 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
   const [error, setError] = useState<string>("");
 
   const isLogin = authMode === "login";
+  const isSignup = authMode === "signup";
+  const isReset = authMode === "reset";
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -48,7 +50,7 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
             },
           },
         );
-      } else {
+      } else if (isSignup) {
         await authClient.signIn.magicLink(
           {
             email,
@@ -62,6 +64,24 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
             },
             onSuccess: (ctx) => {
               console.log("Magic link sent successfully:", ctx.data);
+            },
+            onError: (ctx) => {
+              setError(ctx.error.message);
+            },
+          },
+        );
+      } else if (isReset) {
+        await authClient.requestPasswordReset(
+          {
+            email,
+            redirectTo: "/reset-password",
+          },
+          {
+            onRequest: (ctx) => {
+              console.log("Requesting password reset with email:", ctx.body);
+            },
+            onSuccess: (ctx) => {
+              console.log("Password reset sent successfully:", ctx.data);
             },
             onError: (ctx) => {
               setError(ctx.error.message);
@@ -145,7 +165,11 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
           >
             →
           </span>
-          <span>{isLogin ? "Log in" : "Continue with email"}</span>
+          <span>
+            {isLogin && "Log in"}
+            {isSignup && "Continue with email"}
+            {isReset && "Reset password"}
+          </span>
         </div>
       </button>
     </form>
