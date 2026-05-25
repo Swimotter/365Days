@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import SocialButton from "./ui/social-button";
 
-export default function SocialSignup() {
+export default function SocialLogin() {
   async function handleSubmit(provider: string) {
     await authClient.signIn.social({
       provider: provider,
