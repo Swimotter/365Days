@@ -5,6 +5,7 @@ type FloatingInputProps = {
   name: string;
   label: string;
   type?: string;
+  autoComplete?: string;
   image?: string;
   required?: boolean;
   className?: string;
@@ -15,6 +16,7 @@ export default function FloatingInput({
   name,
   label,
   type = "text",
+  autoComplete,
   image,
   required = false,
   className,
@@ -54,6 +56,7 @@ export default function FloatingInput({
             outline-none
           "
           type={type}
+          autoComplete={autoComplete}
           id={id}
           name={name}
           placeholder=""
