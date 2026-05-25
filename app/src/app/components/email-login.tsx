@@ -6,12 +6,14 @@ import { authClient } from "@/lib/auth-client";
 import FloatingInput from "@/app/components/ui/floating-input";
 
 type EmailLoginProps = {
-  mode: "login" | "signup";
+  authMode: "login" | "signup";
 };
 
-export default function EmailLogin({ mode }: EmailLoginProps) {
+export default function EmailLogin({ authMode }: EmailLoginProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
+
+  const isLogin = authMode === "login";
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,27 +26,7 @@ export default function EmailLogin({ mode }: EmailLoginProps) {
 
       const email = formData.get("email") as string;
 
-      if (mode === "signup") {
-        await authClient.signIn.magicLink(
-          {
-            email,
-            newUserCallbackURL: "/onboarding", // TODO
-            callbackURL: "/dashboard", // TODO
-            errorCallbackURL: "/signup?error=true", // TODO
-          },
-          {
-            onRequest: (ctx) => {
-              console.log("Requesting magic link with email:", ctx.body);
-            },
-            onSuccess: (ctx) => {
-              console.log("Magic link sent successfully:", ctx.data);
-            },
-            onError: (ctx) => {
-              setError(ctx.error.message);
-            },
-          },
-        );
-      } else {
+      if (isLogin) {
         const password = formData.get("password") as string;
 
         await authClient.signIn.email(
@@ -60,6 +42,26 @@ export default function EmailLogin({ mode }: EmailLoginProps) {
             },
             onSuccess: (ctx) => {
               console.log("Email login successful:", ctx.data);
+            },
+            onError: (ctx) => {
+              setError(ctx.error.message);
+            },
+          },
+        );
+      } else {
+        await authClient.signIn.magicLink(
+          {
+            email,
+            newUserCallbackURL: "/onboarding", // TODO
+            callbackURL: "/dashboard", // TODO
+            errorCallbackURL: "/signup?error=true", // TODO
+          },
+          {
+            onRequest: (ctx) => {
+              console.log("Requesting magic link with email:", ctx.body);
+            },
+            onSuccess: (ctx) => {
+              console.log("Magic link sent successfully:", ctx.data);
             },
             onError: (ctx) => {
               setError(ctx.error.message);
@@ -90,7 +92,7 @@ export default function EmailLogin({ mode }: EmailLoginProps) {
         required
         className="bg-gray-200"
       />
-      {mode === "login" && (
+      {isLogin && (
         <FloatingInput
           id="password"
           name="password"
@@ -143,7 +145,7 @@ export default function EmailLogin({ mode }: EmailLoginProps) {
           >
             →
           </span>
-          <span>{mode === "login" ? "Log in" : "Continue with email"}</span>
+          <span>{isLogin ? "Log in" : "Continue with email"}</span>
         </div>
       </button>
     </form>
