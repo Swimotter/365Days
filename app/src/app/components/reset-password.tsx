@@ -1,4 +1,4 @@
-import EmailLogin from "./email-login";
+import EmailLogin from "@/app/components/email-login";
 
 export default function ResetPassword() {
   return (

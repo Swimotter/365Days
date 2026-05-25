@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import SocialButton from "./ui/social-button";
+import SocialButton from "@/app/components/ui/social-button";
 
 export default function SocialLogin() {
   async function handleSubmit(provider: string) {
