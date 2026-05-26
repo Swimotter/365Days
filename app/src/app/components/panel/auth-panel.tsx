@@ -1,34 +1,32 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
-import LoginPage from "@/app/components/panel/login-panel";
-import ResetPassword from "@/app/components/panel/reset-password-panel";
-import Signup from "@/app/components/panel/signup-panel";
+import LoginPanel from "@/app/components/panel/login-panel";
+import SignupPanel from "@/app/components/panel/signup-panel";
+import ResetPassword from "@/app/components/reset-password";
 
-type AuthMode = "login" | "signup" | "reset";
+type AuthMode = "login" | "signup" | "reset" | "recover";
 
 type AuthPanelProps = {
   defaultMode: AuthMode;
 };
 
 export default function AuthPanel({ defaultMode }: AuthPanelProps) {
-  const [authMode, setAuthMode] = useState<AuthMode>(defaultMode);
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
 
   const router = useRouter();
 
   return (
     <div className="flex flex-col text-black items-center">
-      {authMode === "login" && (
+      {defaultMode === "login" && (
         <>
-          <LoginPage />
+          <LoginPanel />
           <button
             className="py-5 mx-4 font-medium cursor-pointer text-blue-500"
-            onClick={() => {
-              setAuthMode("reset");
-              router.push("/password/forgot");
-            }}
+            onClick={() => router.push("/password/forgot")}
           >
             Reset password
           </button>
@@ -36,44 +34,40 @@ export default function AuthPanel({ defaultMode }: AuthPanelProps) {
             No account?{" "}
             <button
               className="font-medium cursor-pointer text-blue-500"
-              onClick={() => {
-                setAuthMode("signup");
-                router.push("/signup");
-              }}
+              onClick={() => router.push("/signup")}
             >
               Create one
             </button>
           </p>
         </>
       )}
-      {authMode === "signup" && (
+      {defaultMode === "signup" && (
         <>
-          <Signup />
+          <SignupPanel />
           <p className="py-5 mx-4 text-gray-600">
             Already have an account?{" "}
             <button
               className="font-medium cursor-pointer text-blue-500"
-              onClick={() => {
-                setAuthMode("login");
-                router.push("/login");
-              }}
+              onClick={() => router.push("/login")}
             >
               Sign in
             </button>
           </p>
         </>
       )}
-      {authMode === "reset" && (
+      {(defaultMode === "reset" || defaultMode === "recover") && (
         <>
-          <ResetPassword />
+          <h1 className="mb-10 text-3xl font-medium text-center">
+            {token
+              ? "Choose a new password"
+              : "Enter your email to reset password"}
+          </h1>
+          <ResetPassword token={token} />
           <button
             className="py-5 mx-4 font-medium cursor-pointer text-blue-500"
-            onClick={() => {
-              setAuthMode("login");
-              router.push("/login");
-            }}
+            onClick={() => router.push("/login")}
           >
-            Cancel
+            {token ? "Back to Log in" : "Cancel"}
           </button>
         </>
       )}

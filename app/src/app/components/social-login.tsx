@@ -12,6 +12,7 @@ export default function SocialLogin() {
       newUserCallbackURL: "/dashboard",
     });
   }
+
   return (
     <div className="flex flex-col gap-4 w-full items-center">
       <SocialButton

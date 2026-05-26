@@ -5,16 +5,13 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import FloatingInput from "@/app/components/ui/floating-input";
 
-type EmailLoginProps = {
-  authMode: "login" | "signup";
+type ResetPasswordProps = {
+  token: string | null;
 };
 
-export default function EmailLogin({ authMode }: EmailLoginProps) {
+export default function ResetPassword({ token }: ResetPasswordProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
-
-  const isLogin = authMode === "login";
-  const isSignup = authMode === "signup";
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -25,17 +22,19 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
     try {
       const formData = new FormData(event.currentTarget);
 
-      const email = formData.get("email") as string;
-
-      if (isLogin) {
+      if (token) {
         const password = formData.get("password") as string;
+        const confirmPassword = formData.get("confirm-password") as string;
 
-        await authClient.signIn.email(
+        if (password !== confirmPassword) {
+          alert("Passwords do not match");
+          return;
+        }
+
+        await authClient.resetPassword(
           {
-            email,
-            password,
-            callbackURL: "/dashboard", // TODO
-            rememberMe: true,
+            newPassword: password,
+            token,
           },
           {
             onRequest: (ctx) => {
@@ -49,20 +48,20 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
             },
           },
         );
-      } else if (isSignup) {
-        await authClient.signIn.magicLink(
+      } else {
+        const email = formData.get("password") as string;
+
+        await authClient.requestPasswordReset(
           {
             email,
-            newUserCallbackURL: "/onboarding", // TODO
-            callbackURL: "/dashboard", // TODO
-            errorCallbackURL: "/signup?error=true", // TODO
+            redirectTo: "/password/recover",
           },
           {
             onRequest: (ctx) => {
-              console.log("Requesting magic link with email:", ctx.body);
+              console.log("Requesting password reset with email:", ctx.body);
             },
             onSuccess: (ctx) => {
-              console.log("Magic link sent successfully:", ctx.data);
+              console.log("Password reset sent successfully:", ctx.data);
             },
             onError: (ctx) => {
               setError(ctx.error.message);
@@ -76,31 +75,45 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
       setLoading(false);
     }
   }
+  console.log(token);
 
   return (
     <form
-      id="email-signup"
+      id="forgot-password"
       className="flex flex-col w-full gap-4"
       onSubmit={handleSubmit}
     >
-      <FloatingInput
-        id="email"
-        name="email"
-        label="Email"
-        type="email"
-        autoComplete="email"
-        image="/email.svg"
-        required
-        className="bg-gray-200"
-      />
-      {isLogin && (
+      {token ? (
+        <>
+          <FloatingInput
+            id="password"
+            name="password"
+            label="Password"
+            type="password"
+            autoComplete="new-password"
+            image="/lock.svg"
+            required
+            className="bg-gray-200"
+          />
+          <FloatingInput
+            id="confirm-password"
+            name="confirm-password"
+            label="Confirm Password"
+            type="password"
+            autoComplete="new-password"
+            image="/lock.svg"
+            required
+            className="bg-gray-200"
+          />
+        </>
+      ) : (
         <FloatingInput
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          image="/lock.svg"
+          id="email"
+          name="email"
+          label="Email"
+          type="email"
+          autoComplete="email"
+          image="/email.svg"
           required
           className="bg-gray-200"
         />
@@ -135,21 +148,19 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
         <div className="flex items-center justify-center gap-1">
           <span
             className="
-            w-0
-            overflow-hidden
-            opacity-0
+              w-0
+              overflow-hidden
+              opacity-0
 
-            group-hover:w-4
-            group-hover:opacity-100
+              group-hover:w-4
+              group-hover:opacity-100
 
-            transition-all duration-200"
+              transition-all duration-200
+            "
           >
             →
           </span>
-          <span>
-            {isLogin && "Log in"}
-            {isSignup && "Continue with email"}
-          </span>
+          <span>{token ? "Submit" : "Reset password"}</span>
         </div>
       </button>
     </form>

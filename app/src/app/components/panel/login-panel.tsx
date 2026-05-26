@@ -1,7 +1,7 @@
 import EmailLogin from "@/app/components/email-login";
 import SocialLogin from "@/app/components/social-login";
 
-export default function LoginPage() {
+export default function LoginPanel() {
   return (
     <>
       <h1 className="mb-10 text-3xl font-medium text-center">
