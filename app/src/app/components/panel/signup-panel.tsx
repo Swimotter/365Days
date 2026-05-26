@@ -1,9 +1,9 @@
 import EmailLogin from "@/app/components/email-login";
 import SocialLogin from "@/app/components/social-login";
 
-export default function ResetPassword() {
+export default function Signup() {
   return (
-    <div className="flex flex-col text-black items-center">
+    <>
       <h1 className="mb-10 text-3xl font-medium text-center">
         Welcome to 365Days
       </h1>
@@ -16,6 +16,6 @@ export default function ResetPassword() {
       </div>
 
       <EmailLogin authMode="signup" />
-    </div>
+    </>
   );
 }
