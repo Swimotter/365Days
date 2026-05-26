@@ -7,9 +7,8 @@ export default function SocialLogin() {
   async function handleSubmit(provider: string) {
     await authClient.signIn.social({
       provider: provider,
-      callbackURL: "/dashboard",
+      callbackURL: "/auth/callback",
       errorCallbackURL: "/error",
-      newUserCallbackURL: "/dashboard",
     });
   }
 

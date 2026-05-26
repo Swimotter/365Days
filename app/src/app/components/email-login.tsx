@@ -34,7 +34,7 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
           {
             email,
             password,
-            callbackURL: "/dashboard", // TODO
+            callbackURL: "/auth/callback", // TODO
             rememberMe: true,
           },
           {
@@ -53,8 +53,7 @@ export default function EmailLogin({ authMode }: EmailLoginProps) {
         await authClient.signIn.magicLink(
           {
             email,
-            newUserCallbackURL: "/onboarding", // TODO
-            callbackURL: "/dashboard", // TODO
+            callbackURL: "/auth/callback",
             errorCallbackURL: "/signup?error=true", // TODO
           },
           {
