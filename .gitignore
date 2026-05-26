@@ -4,3 +4,5 @@
 .pnpm-store/
 
 .env
+
+docker-compose.override.yaml

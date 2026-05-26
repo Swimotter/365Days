@@ -34,6 +34,7 @@
     }
   },
 
+  "updateRemoteUserUID": true,
   "remoteEnv": {
     "GPG_TTY": "/dev/tty"
   }
