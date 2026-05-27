@@ -8,11 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans">
-      <main className="w-full max-w-lg rounded-2xl p-10">
-        <AuthPanel defaultMode="signup" />
-      </main>
-    </div>
-  );
+  return <AuthPanel defaultMode="signup" />;
 }
