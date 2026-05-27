@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import LoginPanel from "@/app/components/panel/login-panel";
-import SignupPanel from "@/app/components/panel/signup-panel";
 import ResetPassword from "@/app/components/reset-password";
 
 type AuthMode = "login" | "signup" | "reset" | "recover";
@@ -14,48 +13,52 @@ type AuthPanelProps = {
 };
 
 export default function AuthPanel({ defaultMode }: AuthPanelProps) {
+  const [authMode, setAuthMode] = useState<AuthMode>(defaultMode);
+
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
-  const router = useRouter();
-
   return (
-    <div className="flex flex-col text-black items-center">
-      {defaultMode === "login" && (
+    <div className="flex flex-col w-full max-w-lg p-10 text-black">
+      {authMode === "login" && (
         <>
-          <LoginPanel />
-          <button
-            className="py-5 mx-4 font-medium cursor-pointer text-blue-500"
-            onClick={() => router.push("/password/forgot")}
-          >
-            Reset password
-          </button>
-          <p className="mx-4 text-gray-600">
-            No account?{" "}
+          <LoginPanel authMode={authMode} />
+          <div className="flex flex-col pt-5 gap-5 text-center">
             <button
               className="font-medium cursor-pointer text-blue-500"
-              onClick={() => router.push("/signup")}
+              onClick={() => setAuthMode("reset")}
             >
-              Create one
+              Reset password
             </button>
-          </p>
+            <div>
+              <span className="text-gray-600">No account? </span>
+              <button
+                className="font-medium cursor-pointer text-blue-500"
+                onClick={() => setAuthMode("signup")}
+              >
+                Create one
+              </button>
+            </div>
+          </div>
         </>
       )}
-      {defaultMode === "signup" && (
+      {authMode === "signup" && (
         <>
-          <SignupPanel />
-          <p className="py-5 mx-4 text-gray-600">
-            Already have an account?{" "}
-            <button
-              className="font-medium cursor-pointer text-blue-500"
-              onClick={() => router.push("/login")}
-            >
-              Sign in
-            </button>
-          </p>
+          <LoginPanel authMode={authMode} />
+          <div className="flex flex-col pt-5 gap-5 text-center">
+            <div>
+              <span className="text-gray-600">Already have an account? </span>
+              <button
+                className="font-medium cursor-pointer text-blue-500"
+                onClick={() => setAuthMode("login")}
+              >
+                Sign in
+              </button>
+            </div>
+          </div>
         </>
       )}
-      {(defaultMode === "reset" || defaultMode === "recover") && (
+      {(authMode === "reset" || authMode === "recover") && (
         <>
           <h1 className="mb-10 text-3xl font-medium text-center">
             {token
@@ -63,12 +66,14 @@ export default function AuthPanel({ defaultMode }: AuthPanelProps) {
               : "Enter your email to reset password"}
           </h1>
           <ResetPassword token={token} />
-          <button
-            className="py-5 mx-4 font-medium cursor-pointer text-blue-500"
-            onClick={() => router.push("/login")}
-          >
-            {token ? "Back to Log in" : "Cancel"}
-          </button>
+          <div className="flex flex-col pt-5 gap-5 text-center">
+            <button
+              className="font-medium cursor-pointer text-blue-500"
+              onClick={() => setAuthMode("login")}
+            >
+              {token ? "Back to Log in" : "Cancel"}
+            </button>
+          </div>
         </>
       )}
     </div>
