@@ -15,8 +15,8 @@ export default function Home({ children }: HomeProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-10 bg-white dark:bg-black border-b border-zinc-200 dark:border-zinc-800">
-        <nav className="flex items-center justify-between px-4 py-3 sm:px-6">
+      <header className="sticky top-0 z-10 bg-zinc-50 border-b border-zinc-200">
+        <nav className="flex items-center justify-between px-4 py-3 sm:px-6 text-black">
           <div className="flex items-center gap-4">
             <Link href="/" className="font-bold text-xl">
               365Days
@@ -33,7 +33,7 @@ export default function Home({ children }: HomeProps) {
                   absolute left-0 -bottom-1
                   h-px w-full
 
-                  bg-white
+                  bg-black
 
                   translate-y-1 opacity-0
                   group-hover:-translate-y-1 group-hover:opacity-100
@@ -47,7 +47,7 @@ export default function Home({ children }: HomeProps) {
       </header>
 
       <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans">
-        <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white sm:items-start">
+        <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-zinc-50 sm:items-start">
           {children}
         </main>
       </div>
